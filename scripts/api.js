@@ -4,8 +4,9 @@
 
 const api = (function(){
   const BASE_URL = 'https://thinkful-list-api.herokuapp.com/david-daniel';
-  const getItems = function(){
-    return fetch(`${BASE_URL}/items`)
+  
+  const listApiFetch =  function(...args) {
+    return fetch( ...args )
       .then(res => {
         if (!res.ok) store.errorHandling = true;
         return res.json();
@@ -16,56 +17,32 @@ const api = (function(){
       })
       .catch( err => alert(err.message));
   };
+  
+  
+  const getItems = function(){
+    return listApiFetch( `${BASE_URL}/items` );
+  };
+
   const createItem = function(name) {
     const newItem = JSON.stringify({
       name: name
     });
-    
-    return fetch(`${BASE_URL}/items`, { 
+    return listApiFetch( `${BASE_URL}/items`, { 
       method: "POST", 
       headers: new Headers({ 'Content-Type': 'application/json' }), 
-      body: newItem })
-      .then(res => {
-        if (!res.ok) store.errorHandling = true;
-        return res.json();
-      })
-      .then(data => {
-        if (store.errorHandling) throw new Error(data.message);
-        return data;
-      })
-      .catch( err => alert(err.message));
+      body: newItem } );
   };
   const updateItem = function( id, updateData ) {
-    
-    return fetch( `${BASE_URL}/items/${id}`, {
+    return listApiFetch( `${BASE_URL}/items/${id}`, {
       method: "PATCH",
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify( updateData )
-    })
-      .then(res => {
-        if (!res.ok) store.errorHandling = true;
-        return res.json();
-      })
-      .then(data => {
-        if (store.errorHandling) throw new Error(data.message);
-        return data;
-      })
-      .catch( err => alert(err.message));
+    } );
   };
   const deleteItem = function (id){
-    return fetch( `${BASE_URL}/items/${id}`, {
+    return listApiFetch( `${BASE_URL}/items/${id}`, {
       method: "DELETE",
-      
-    })
-      .then(res => {
-        if (!res.ok) store.errorHandling = true;
-        return res.json();
-      })
-      .then(data => {
-        if (store.errorHandling) throw new Error(data.message);
-        return data;
-      })
-      .catch( err => alert(err.message));
+    });
   };
   return {
     getItems: getItems,
