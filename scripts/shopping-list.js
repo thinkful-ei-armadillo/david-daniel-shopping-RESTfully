@@ -53,6 +53,10 @@ const shoppingList = (function(){
     if (store.searchTerm) {
       items = items.filter(item => item.name.includes(store.searchTerm));
     }
+
+    if (store.errorHandling) {
+      alert(`${Error.message}`);
+    }
   
     // render the shopping list in the DOM
     console.log('`render` ran');
