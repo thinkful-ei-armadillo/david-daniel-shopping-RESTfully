@@ -8,6 +8,7 @@ $(document).ready(function() {
     .then((items) => {
       items.forEach((item) => store.addItem(item));
       shoppingList.render();
+      
     });
 });
 

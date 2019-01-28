@@ -14,14 +14,23 @@ const api = (function(){
       name: name
     });
     return fetch(`${BASE_URL}/items`, { 
-      "method": "POST", 
-      "headers": new Headers({ 'Content-Type': 'application/json' }), 
-      "body": newItem })
+      method: "POST", 
+      headers: new Headers({ 'Content-Type': 'application/json' }), 
+      body: newItem })
       .then(response => response.json())
       .then(data => data);
   };
+  const updateItem = function( id, updateData ) {
+    // updateData is in this format { name: newName }
+    return fetch( `${BASE_URL}/items/${id}`, {
+      method: "PATCH",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify( updateData )
+    });
+  };
   return {
     getItems: getItems,
-    createItem: createItem
+    createItem: createItem,
+    updateItem: updateItem
   };
 })();
